@@ -25,18 +25,8 @@ public class SARSALearner extends QLearner {
 	
 	@Override
 	public void updateQMatrix(int originState, int action, int nextState,
-			double reward) {
-		
-		if (actionBefore != -1){
-			double q = qMatrix.get(stateBefore, actionBefore);
-			double nextQ = qMatrix.get(originState, action);
-			double delta = alpha * (reward + gamma * nextQ - q);
-			double newQ = q + delta;
-			qMatrix.set(stateBefore, actionBefore, newQ);
-		}
-		
-		stateBefore = originState;
-		actionBefore = action;
+			double reward) throws UnsupportedOperationException{
+		throw new UnsupportedOperationException();
 	}
 	
 	public void updateQMatrix(int originState, int action, int nextState, int nextAction,
