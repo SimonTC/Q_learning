@@ -1,10 +1,10 @@
 package dk.itu.stcl.agents;
 
-public class SARSALearner extends QLearner {
+public class SARSALearner_Eligibility extends QLearner {
 	
 	private int nextAction;
 
-	public SARSALearner(int numStates, int numActions, double alpha,
+	public SARSALearner_Eligibility(int numStates, int numActions, double alpha,
 			double gamma) {
 		super(numStates, numActions, alpha, gamma);
 		nextAction = -1;
