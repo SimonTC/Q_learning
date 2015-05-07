@@ -12,14 +12,18 @@ public class Blockworld_SARSA {
 	
 	private SimpleMatrix world;
 	private enum ACTIONS {N,S,E,W};
-	private final double END_REWARD = 1;
+	private final double GOAL_REWARD = 1;
+	private final double HOLE_REWARD = -1;
 	private State goal;
+	private State hole;
 	private Random rand = new Random();
 	
 	public void setup(int worldSize){
 		world = new SimpleMatrix(worldSize, worldSize);
 		goal = new State(0, 0, world);
-		world.set(goal.row, goal.col, END_REWARD);
+		hole = new State(1, 0, world);
+		world.set(goal.row, goal.col, GOAL_REWARD);
+		world.set(hole.row, hole.col, HOLE_REWARD);
 	}
 	
 	public void runEpisode(SARSALearner agent, double explorationChance){
@@ -31,7 +35,7 @@ public class Blockworld_SARSA {
 			actionID = agent.selectBestAction(state.id);
 		}
 		
-		while(!isGoalState(state)){
+		while(!isTerminalState(state)){
 			State nextState = move(state, ACTIONS.values()[actionID]);
 			double reward = world.get(nextState.row, nextState.col);
 			int nextActionID = 1;
@@ -94,8 +98,10 @@ public class Blockworld_SARSA {
 		return s;
 	}
 	
-	private boolean isGoalState(State s){
-		return s.equals(goal);
+	private boolean isTerminalState(State s){
+		if (s.equals(goal)) return true;
+		if (s.equals(hole)) return true;
+		return false;
 	}
 	
 	public int getNumActions(){
