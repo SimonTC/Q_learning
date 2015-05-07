@@ -28,6 +28,15 @@ public class SARSALearner extends QLearner {
 		actionBefore = action;
 	}
 	
+	public void updateQMatrix(int originState, int action, int nextState, int nextAction,
+			double reward) {
+		
+		double q = qMatrix.get(originState, action);
+		double nextQ = qMatrix.get(nextState, nextAction);
+		double delta = alpha * (reward + gamma * nextQ - q);
+		double newQ = q + delta;
+		qMatrix.set(originState, action, newQ);
+	}
 	
 
 }
