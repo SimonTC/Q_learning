@@ -2,7 +2,6 @@ package dk.itu.stcl;
 
 import dk.itu.stcl.agents.QLearner;
 import dk.itu.stcl.agents.SARSALearner;
-import dk.itu.stcl.tasks.Blockworld;
 import dk.itu.stcl.tasks.Blockworld_SARSA;
 
 public class TaskManager {
