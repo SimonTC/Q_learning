@@ -35,6 +35,9 @@ public class Blockworld {
 			State nextState = move(state, ACTIONS.values()[actionID]);
 			
 			double reward = world.get(nextState.row, nextState.col);
+			if (reward > 0){
+				//System.out.println();
+			}
 			
 			agent.updateQMatrix(state.id, actionID, nextState.id, reward);
 			

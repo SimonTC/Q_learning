@@ -4,8 +4,8 @@ import org.ejml.simple.SimpleMatrix;
 
 public class QLearner {
 	
-	private SimpleMatrix qMatrix;
-	private double alpha, gamma;
+	protected SimpleMatrix qMatrix;
+	protected double alpha, gamma;
 	
 	public QLearner(int numStates, int numActions, double alpha, double gamma){
 		qMatrix = new SimpleMatrix(numStates, numActions);
