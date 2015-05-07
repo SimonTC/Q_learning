@@ -68,5 +68,9 @@ public class SARSALearner extends QLearner {
 		
 	}
 	
+	public void newEpisode(){
+		traceMatrix.set(0);
+	}
+	
 
 }

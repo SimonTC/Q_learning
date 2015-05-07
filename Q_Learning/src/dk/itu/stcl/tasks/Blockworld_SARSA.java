@@ -27,6 +27,7 @@ public class Blockworld_SARSA {
 	}
 	
 	public void runEpisode(SARSALearner agent, double explorationChance){
+		agent.newEpisode();
 		State state = selectRandomState(true);
 		int actionID = -1;
 		if (rand.nextDouble() < explorationChance){
