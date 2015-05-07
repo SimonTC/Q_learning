@@ -13,6 +13,17 @@ public class SARSALearner extends QLearner {
 	}
 	
 	@Override
+	public int selectBestAction(int state) {
+		if (nextAction == -1){
+			return super.selectBestAction(state);
+		}
+		
+		int action = nextAction;
+		nextAction = super.selectBestAction(state);
+		return action;
+	}
+	
+	@Override
 	public void updateQMatrix(int originState, int action, int nextState,
 			double reward) {
 		
