@@ -21,9 +21,9 @@ public class Blockworld_SARSA {
 	public void setup(int worldSize){
 		world = new SimpleMatrix(worldSize, worldSize);
 		goal = new State(0, 0, world);
-		hole = new State(1, 0, world);
+		//hole = new State(1, 0, world);
 		world.set(goal.row, goal.col, GOAL_REWARD);
-		world.set(hole.row, hole.col, HOLE_REWARD);
+		//world.set(hole.row, hole.col, HOLE_REWARD);
 	}
 	
 	public void runEpisode(SARSALearner agent, double explorationChance){
@@ -57,8 +57,14 @@ public class Blockworld_SARSA {
 		for (int row = 0; row < world.numRows(); row++){
 			for (int col = 0; col < world.numCols(); col++){
 				State s = new State(row, col, world);
-				int bestAction = agent.selectBestAction(s.id);
-				System.out.print(ACTIONS.values()[bestAction].name() + "  ");
+				if (s.equals(goal)){
+					System.out.print("*  ");
+				} else if (s.equals(hole)){
+					System.out.print("/  ");
+				} else {
+					int bestAction = agent.selectBestAction(s.id);
+					System.out.print(ACTIONS.values()[bestAction].name() + "  ");
+				}
 			}
 			System.out.println();
 		}
