@@ -56,7 +56,7 @@ public class SARSALearner extends QLearner {
 		traceMatrix = traceMatrix.scale(lambda * gamma);
 		
 		//Calculate new trace for state-action pair
-		double newTrace = traceMatrix.get(state, action) + 1;
+		double newTrace = 1;//traceMatrix.get(state, action) + 1;
 				
 		//Set trace of unchosen actions in current state to zero
 		SimpleMatrix actionVector = traceMatrix.extractVector(true, state);
