@@ -72,5 +72,9 @@ public class SARSALearner extends QLearner {
 		traceMatrix.set(0);
 	}
 	
+	public SimpleMatrix getTraceMatrix(){
+		return traceMatrix;
+	}
+	
 
 }
