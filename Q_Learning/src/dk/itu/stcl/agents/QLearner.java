@@ -1,16 +1,22 @@
 package dk.itu.stcl.agents;
 
+import java.util.LinkedList;
+
 import org.ejml.simple.SimpleMatrix;
 
 public class QLearner {
 	
 	protected SimpleMatrix qMatrix;
 	protected double alpha, gamma;
+	private boolean offline;
+	private LinkedList<Transition> transitions;
 	
-	public QLearner(int numStates, int numActions, double alpha, double gamma){
+	public QLearner(int numStates, int numActions, double alpha, double gamma, boolean offline){
 		qMatrix = new SimpleMatrix(numStates, numActions);
 		this.alpha = alpha;
 		this.gamma = gamma;
+		this.offline = offline;
+		if(offline) transitions = new LinkedList<QLearner.Transition>();
 	}
 	
 	/**
@@ -43,19 +49,31 @@ public class QLearner {
 	 */
 	public void updateQMatrix(int originState, int action, int nextState,
 			double reward) {
+		this.updateQMatrix(originState, action, nextState, -1, reward);
+	}
+	
+	public void updateQMatrix(int originState, int action, int nextState, int nextAction,
+			double reward) {
+		if (offline){
+			Transition t = new Transition(originState, action, nextState,nextAction, reward);
+			transitions.addLast(t);
+		} else {
+			QUpdate(originState, action, nextState, nextAction, reward);
+		}		
 		
+	}
+	
+	protected void QUpdate(int originState, int action, int nextState, int nextAction,
+			double reward){
 		double q = qMatrix.get(originState, action);
 		double maxQ = maxQ(nextState);
 		double delta = alpha * (reward + gamma * maxQ - q);
 		double newQ = q + delta;
 		qMatrix.set(originState, action, newQ);
-		
-		
 	}
 	
-	public void updateQMatrix(int originState, int action, int nextState, int nextAction,
-			double reward) {
-		this.updateQMatrix(originState, action, nextState, reward);
+	private void QUpdate(Transition t){
+		this.QUpdate(t.originState, t.action, t.nextState, t.nextAction, t.reward);
 	}
 	
 	/**
@@ -89,7 +107,33 @@ public class QLearner {
 	}
 	
 	public void newEpisode(){
+		if (offline){
+			while (!transitions.isEmpty()){
+				Transition t = transitions.removeLast();
+				QUpdate(t);
+			}
+		}
+	}
+	
+	protected class Transition{
 		
+		private int originState, action, nextState, nextAction;
+		private double reward;
+		
+		protected Transition(int originState, int action, int nextState,
+				double reward){
+			this(originState, action, nextState, -1, reward);
+		}
+		
+		protected Transition (int originState, int action, int nextState, int nextAction,
+				double reward) {
+			this.originState = originState;
+			this.action = action;
+			this.nextState = nextState;
+			this.nextAction = nextAction;
+			this.reward = reward;
+			
+		}
 	}
 	
 

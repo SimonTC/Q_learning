@@ -2,6 +2,7 @@ package dk.itu.stcl;
 
 import dk.itu.stcl.agents.QLearner;
 import dk.itu.stcl.agents.SARSALearner;
+import dk.itu.stcl.tasks.Blockworld;
 import dk.itu.stcl.tasks.Blockworld_SARSA;
 
 public class TaskManager {
@@ -12,11 +13,11 @@ public class TaskManager {
 	}
 	
 	public void run(int numEpisodes){
-		//Blockworld bw = new Blockworld();
-		Blockworld_SARSA bw = new Blockworld_SARSA();
+		Blockworld bw = new Blockworld();
+		//Blockworld_SARSA bw = new Blockworld_SARSA();
 		bw.setup(4);
-		//QLearner agent = new QLearner(bw.getNumStates(), bw.getNumActions(), 0.1, 0.9);
-		SARSALearner agent = new SARSALearner(bw.getNumStates(), bw.getNumActions(), 0.1, 0.9,0.9);
+		QLearner agent = new QLearner(bw.getNumStates(), bw.getNumActions(), 0.1, 0.9, true);
+		//SARSALearner agent = new SARSALearner(bw.getNumStates(), bw.getNumActions(), 0.1, 0.9, true, 0.9);
 		
 		for (int i = 0; i < numEpisodes; i++){
 			bw.runEpisode(agent, 1 - ((double) i / numEpisodes));

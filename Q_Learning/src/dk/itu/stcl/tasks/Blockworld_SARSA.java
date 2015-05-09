@@ -20,7 +20,7 @@ public class Blockworld_SARSA {
 	
 	public void setup(int worldSize){
 		world = new SimpleMatrix(worldSize, worldSize);
-		goal = new State(0, 0, world);
+		goal = selectRandomState(true);
 		//hole = new State(1, 0, world);
 		world.set(goal.row, goal.col, GOAL_REWARD);
 		//world.set(hole.row, hole.col, HOLE_REWARD);

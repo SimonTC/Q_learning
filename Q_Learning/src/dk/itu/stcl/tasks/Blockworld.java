@@ -7,24 +7,26 @@ import org.ejml.simple.SimpleMatrix;
 import dk.itu.stcl.agents.QLearner;
 
 
+
 public class Blockworld {
 	
 	private SimpleMatrix world;
 	private enum ACTIONS {N,S,E,W};
 	private final double END_REWARD = 1;
 	private State goal;
+	private State hole;
 	private Random rand = new Random();
 	
 	public void setup(int worldSize){
 		world = new SimpleMatrix(worldSize, worldSize);
-		goal = new State(0, 0, world);
+		goal = selectRandomState(true);
 		world.set(goal.row, goal.col, END_REWARD);
 	}
 	
 	public void runEpisode(QLearner agent, double explorationChance){
 		State state = selectRandomState(true);
 		int actionID = -1;
-		
+		agent.newEpisode();
 		while(!isGoalState(state)){
 			if (rand.nextDouble() < explorationChance){
 				actionID = rand.nextInt(ACTIONS.values().length);
@@ -49,8 +51,14 @@ public class Blockworld {
 		for (int row = 0; row < world.numRows(); row++){
 			for (int col = 0; col < world.numCols(); col++){
 				State s = new State(row, col, world);
-				int bestAction = agent.selectBestAction(s.id);
-				System.out.print(ACTIONS.values()[bestAction].name() + "  ");
+				if (s.equals(goal)){
+					System.out.print("*  ");
+				} else if (s.equals(hole)){
+					System.out.print("/  ");
+				} else {
+					int bestAction = agent.selectBestAction(s.id);
+					System.out.print(ACTIONS.values()[bestAction].name() + "  ");
+				}
 			}
 			System.out.println();
 		}

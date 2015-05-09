@@ -9,8 +9,8 @@ public class SARSALearner extends QLearner {
 	private double lambda;
 
 	public SARSALearner(int numStates, int numActions, double alpha,
-			double gamma, double lambda) {
-		super(numStates, numActions, alpha, gamma);
+			double gamma, boolean offline, double lambda) {
+		super(numStates, numActions, alpha, gamma, offline);
 		traceMatrix = new SimpleMatrix(numStates, numActions);
 		this.lambda = lambda;
 		nextAction = -1;
@@ -28,15 +28,9 @@ public class SARSALearner extends QLearner {
 	}
 	
 	@Override
-	public void updateQMatrix(int originState, int action, int nextState,
-			double reward) throws UnsupportedOperationException{
-		throw new UnsupportedOperationException();
-	}
-	
-	@Override
-	public void updateQMatrix(int originState, int action, int nextState, int nextAction,
-			double reward) {
-		
+	protected void QUpdate(int originState, int action, int nextState, int nextAction,
+			double reward){
+		assert (nextAction >= 0) : "Next action has to be bigger than -1";
 		//Calculate TD error
 		double q = qMatrix.get(originState, action);
 		double nextQ = qMatrix.get(nextState, nextAction);
@@ -47,7 +41,6 @@ public class SARSALearner extends QLearner {
 		
 		//Update q-matrix
 		qMatrix = qMatrix.plus(alpha * delta, traceMatrix);	
-	
 	}
 	
 	
@@ -71,6 +64,7 @@ public class SARSALearner extends QLearner {
 	
 	@Override
 	public void newEpisode(){
+		super.newEpisode();
 		traceMatrix.set(0);
 	}
 	
