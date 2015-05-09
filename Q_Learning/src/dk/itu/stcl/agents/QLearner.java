@@ -53,6 +53,11 @@ public class QLearner {
 		
 	}
 	
+	public void updateQMatrix(int originState, int action, int nextState, int nextAction,
+			double reward) {
+		this.updateQMatrix(originState, action, nextState, reward);
+	}
+	
 	/**
 	 * Returns the maximum possible q-value it is possible to be rewarded by doing actions from the given state
 	 * @param state
@@ -81,6 +86,10 @@ public class QLearner {
 	
 	public SimpleMatrix getQMatrix(){
 		return qMatrix;
+	}
+	
+	public void newEpisode(){
+		
 	}
 	
 

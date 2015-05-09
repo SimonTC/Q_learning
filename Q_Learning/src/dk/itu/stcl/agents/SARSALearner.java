@@ -33,6 +33,7 @@ public class SARSALearner extends QLearner {
 		throw new UnsupportedOperationException();
 	}
 	
+	@Override
 	public void updateQMatrix(int originState, int action, int nextState, int nextAction,
 			double reward) {
 		
@@ -68,6 +69,7 @@ public class SARSALearner extends QLearner {
 		
 	}
 	
+	@Override
 	public void newEpisode(){
 		traceMatrix.set(0);
 	}
