@@ -26,18 +26,30 @@ public class QLearner {
 	 */
 	public int selectBestAction(int state) {
 		SimpleMatrix actionVector = qMatrix.extractVector(true, state);
+
+		int bestAction = maxElement(actionVector);
+		return bestAction;
+	}
+	
+	public int selectBestAction(SimpleMatrix stateProbabilities){
+		SimpleMatrix actionValues = stateProbabilities.mult(qMatrix);
+		int bestAction = maxElement(actionValues);
+		return bestAction;
 		
+	}
+	
+	private int maxElement(SimpleMatrix m){
 		double maxValue = Double.NEGATIVE_INFINITY;
-		int bestAction = -1;
+		int maxElement = -1;
 		
-		for(int i = 0; i < actionVector.getNumElements(); i++){
-			double d = actionVector.get(i);
+		for(int i = 0; i < m.getNumElements(); i++){
+			double d = m.get(i);
 			if (d > maxValue){
 				maxValue = d;
-				bestAction = i;
+				maxElement = i;
 			}
 		}
-		return bestAction;
+		return maxElement;
 	}
 	
 	/**
