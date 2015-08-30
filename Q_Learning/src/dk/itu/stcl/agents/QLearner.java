@@ -3,7 +3,11 @@ package dk.itu.stcl.agents;
 import java.util.LinkedList;
 
 import org.ejml.simple.SimpleMatrix;
-
+/**
+ * This class implements standard Q-learning
+ * @author Simon
+ *
+ */
 public class QLearner {
 	
 	protected SimpleMatrix qMatrix;

@@ -1,7 +1,11 @@
 package dk.itu.stcl.agents;
 
 import org.ejml.simple.SimpleMatrix;
-
+/**
+ * This class implements SARSA learning
+ * @author Simon
+ *
+ */
 public class SARSALearner extends QLearner {
 	
 	private int nextAction;
