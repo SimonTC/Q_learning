@@ -31,6 +31,11 @@ public class QLearner {
 		return bestAction;
 	}
 	
+	/**
+	 * Selects the best action to perform given the current state probabilities.
+	 * @param stateProbabilities
+	 * @return
+	 */
 	public int selectBestAction(SimpleMatrix stateProbabilities){
 		SimpleMatrix actionValues = stateProbabilities.mult(qMatrix);
 		int bestAction = maxElement(actionValues);
@@ -57,13 +62,22 @@ public class QLearner {
 	 * @param originState State agent started in
 	 * @param action Action performed in originState
 	 * @param nextState State agent ended up in after performing action in origin state
-	 * @param reward reward received for performing action in origin state and ending up in nextState
+	 * @param reward Reward received for performing action in origin state and ending up in nextState
 	 */
 	public void updateQMatrix(int originState, int action, int nextState,
 			double reward) {
 		this.updateQMatrix(originState, action, nextState, -1, reward);
 	}
 	
+	/**
+	 * 
+	 * Updates the q-entry for the state-action pair (originState,action)
+	 * @param originState State agent started in
+	 * @param action Action performed in originState
+	 * @param nextState State agent ended up in after performing action in origin state
+	 * @param nextAction The action that will be performed in the next state
+	 * @param reward Reward received for performing action in origin state and ending up in nextState
+	 */
 	public void updateQMatrix(int originState, int action, int nextState, int nextAction,
 			double reward) {
 		if (offline){
@@ -106,10 +120,18 @@ public class QLearner {
 		return maxValue;
 	}
 	
+	/**
+	 * Sets the learning rate
+	 * @param alpha
+	 */
 	public void setAlpha(double alpha){
 		this.alpha = alpha;
 	}
 	
+	/**
+	 * Sets the discounting rate
+	 * @param gamma
+	 */
 	public void setGamma(double gamma){
 		this.gamma = gamma;
 	}
